@@ -16,15 +16,18 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+    void on_frame(QPixmap*);
+
 private slots:
     void on_startBtn_clicked();
     void readyRead();
+    void onFrame(QPixmap*);
 
 private:
     Ui::MainWindow *ui;
     uchar mVersion;
     uchar mHeadSize;
-    quint32 mReadBannerBytes;
     quint32 mMiniCapPid;
     quint32 mRealDisplayWidth;
     quint32 mRealDisplayHeight;
@@ -32,10 +35,8 @@ private:
     quint32 mVirtualDisplayHeight;
     uchar mDisplayOrientation;
     uchar mQuirkBitFlags;
-    QByteArray *mHeadData;
     quint32 mReadFrameBytes;
     quint32 mFrameSize;
-    quint32 mFrameIndex;
     QByteArray *mFrameData;
     QTcpSocket *mSocket;
     quint32 mPicIndex;
