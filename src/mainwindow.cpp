@@ -20,17 +20,41 @@ MainWindow::MainWindow(QWidget *parent)
     , mFrameSize(0)
     , mFrameData(new QByteArray)
     , mPicIndex(0)
+    , mProcess(new QProcess(this))
 {
     ui->setupUi(this);
-    mSocket = new QTcpSocket(this);
 
+//    mProcess->start("cmd.exe");
+
+    connect(mProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(onProcessReadyRead()));
+    connect(mProcess, SIGNAL(readyReadStandardError()), this, SLOT(onProcessErrorReadyRead()));
+
+#if defined (Q_OS_WIN)
+    mProcess->start("cmd.exe");
+    mProcess->write("chcp 65001\n", 11);
+#else
+    mProcess->start("bash");
+#endif
+
+    mSocket = new QTcpSocket(this);
     connect(mSocket, &QTcpSocket::readyRead, this, &MainWindow::readyRead);
-    connect(this, SIGNAL(on_frame(QPixmap*)), this, SLOT(onFrame(QPixmap*)));
+    connect(this, SIGNAL(on_frame(QPixmap)), this, SLOT(onFrame(QPixmap)));
 }
 
 MainWindow::~MainWindow()
 {
+    if(mSocket->isOpen()) {
+        mSocket->close();
+    }
+    mProcess->close();
+    mProcess->waitForFinished(5);
+
     delete ui;
+}
+
+void MainWindow::runCmd(QString cmd)
+{
+    mProcess->write(cmd.toUtf8());
 }
 
 
@@ -135,8 +159,10 @@ void MainWindow::readyRead()
                     qDebug("frame body does not start with jpg header");
                 }
 
-               QPixmap *pixMap = new QPixmap();
-               pixMap->loadFromData((uchar*)mFrameData->data(), mFrameData->size());
+//               QPixmap *pixMap = new QPixmap();
+               QPixmap pixMap;
+               pixMap.loadFromData((uchar*)mFrameData->data(), mFrameData->size());
+//               pixMap->loadFromData((uchar*)mFrameData->data(), mFrameData->size());
                emit on_frame(pixMap);
 
 
@@ -158,11 +184,138 @@ void MainWindow::readyRead()
     }
 }
 
-void MainWindow::onFrame(QPixmap *img)
+void MainWindow::onFrame(QPixmap img)
 {
-    const QPixmap *apm = ui->imgLabel->pixmap();
-    ui->imgLabel->setPixmap(*img);
+//    const QPixmap *apm = ui->imgLabel->pixmap();
+    ui->imgLabel->setPixmap(img);
     update();
 //    delete apm;
-//    apm = nullptr;
+    //    apm = nullptr;
+}
+
+void MainWindow::onProcessReadyRead()
+{
+    qDebug("process ready read");
+   qDebug() << mProcess->readAllStandardOutput();
+}
+
+void MainWindow::onProcessErrorReadyRead()
+{
+    qDebug("process error ready read");
+   qDebug() << mProcess->readAllStandardError();
+}
+
+void MainWindow::on_rightBtn_clicked()
+{
+    runCmd(QString("adb shell input keyevent 22\n"));
+}
+
+void MainWindow::on_homeBtn_clicked()
+{
+    runCmd(QString("adb shell input keyevent 3\n"));
+}
+
+void MainWindow::on_backBtn_clicked()
+{
+    runCmd(QString("adb shell input keyevent 4\n"));
+}
+
+void MainWindow::on_settingBtn_clicked()
+{
+    runCmd(QString("adb shell input keyevent 82\n"));
+}
+
+void MainWindow::on_upBtn_clicked()
+{
+    runCmd(QString("adb shell input keyevent 19\n"));
+}
+
+void MainWindow::on_downBtn_clicked()
+{
+    runCmd(QString("adb shell input keyevent 20\n"));
+}
+
+void MainWindow::on_leftBtn_clicked()
+{
+    runCmd(QString("adb shell input keyevent 21\n"));
+}
+
+void MainWindow::on_okBtn_clicked()
+{
+    runCmd(QString("adb shell input keyevent 66\n"));
+}
+
+void MainWindow::on_volUpBtn_clicked()
+{
+    runCmd(QString("adb shell input keyevent 24\n"));
+}
+
+void MainWindow::on_volDownBtn_clicked()
+{
+    runCmd(QString("adb shell input keyevent 25\n"));
+}
+
+void MainWindow::on_num1Btn_clicked()
+{
+
+}
+
+void MainWindow::on_num2Btn_clicked()
+{
+
+}
+
+void MainWindow::on_num3Btn_clicked()
+{
+
+}
+
+void MainWindow::on_num4Btn_clicked()
+{
+
+}
+
+void MainWindow::on_num5Btn_clicked()
+{
+
+}
+
+void MainWindow::on_num6Btn_clicked()
+{
+
+}
+
+void MainWindow::on_num7Btn_clicked()
+{
+
+}
+
+void MainWindow::on_num8Btn_clicked()
+{
+
+}
+
+void MainWindow::on_num9Btn_clicked()
+{
+
+}
+
+void MainWindow::on_num0Btn_clicked()
+{
+
+}
+
+void MainWindow::on_numDotBtn_clicked()
+{
+
+}
+
+void MainWindow::on_delBtn_clicked()
+{
+
+}
+
+void MainWindow::on_sendBtn_clicked()
+{
+
 }

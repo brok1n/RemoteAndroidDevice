@@ -72,7 +72,7 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="pushButton_5">
+    <widget class="QPushButton" name="downBtn">
      <property name="geometry">
       <rect>
        <x>70</x>
@@ -85,7 +85,7 @@
       <string>下</string>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>7</x>
@@ -96,14 +96,14 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <widget class="QPushButton" name="pushButton_9">
+       <widget class="QPushButton" name="volUpBtn">
         <property name="text">
          <string>音量+</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_10">
+       <widget class="QPushButton" name="volDownBtn">
         <property name="text">
          <string>音量-</string>
         </property>
@@ -111,10 +111,10 @@
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>7</x>
+       <x>10</x>
        <y>250</y>
        <width>181</width>
        <height>25</height>
@@ -122,21 +122,21 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QPushButton" name="pushButton_6">
+       <widget class="QPushButton" name="leftBtn">
         <property name="text">
          <string>左</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_8">
+       <widget class="QPushButton" name="okBtn">
         <property name="text">
          <string>OK</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_7">
+       <widget class="QPushButton" name="rightBtn">
         <property name="text">
          <string>右</string>
         </property>
@@ -144,10 +144,10 @@
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>7</x>
+       <x>10</x>
        <y>170</y>
        <width>181</width>
        <height>25</height>
@@ -155,21 +155,21 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="homeBtn">
         <property name="text">
          <string>首页</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="backBtn">
         <property name="text">
          <string>返回</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="settingBtn">
         <property name="text">
          <string>设置</string>
         </property>
@@ -177,7 +177,7 @@
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>7</x>
@@ -195,7 +195,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_23">
+       <widget class="QPushButton" name="sendBtn">
         <property name="maximumSize">
          <size>
           <width>60</width>
@@ -209,7 +209,7 @@
       </item>
      </layout>
     </widget>
-    <widget class="QPushButton" name="pushButton_4">
+    <widget class="QPushButton" name="upBtn">
      <property name="geometry">
       <rect>
        <x>70</x>
@@ -222,10 +222,10 @@
       <string>上</string>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>7</x>
+       <x>10</x>
        <y>370</y>
        <width>181</width>
        <height>121</height>
@@ -233,84 +233,84 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QPushButton" name="pushButton_11">
+       <widget class="QPushButton" name="num1Btn">
         <property name="text">
          <string>1</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QPushButton" name="pushButton_12">
+       <widget class="QPushButton" name="num2Btn">
         <property name="text">
          <string>2</string>
         </property>
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="QPushButton" name="pushButton_13">
+       <widget class="QPushButton" name="num3Btn">
         <property name="text">
          <string>3</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QPushButton" name="pushButton_15">
+       <widget class="QPushButton" name="num4Btn">
         <property name="text">
          <string>4</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QPushButton" name="pushButton_14">
+       <widget class="QPushButton" name="num5Btn">
         <property name="text">
          <string>5</string>
         </property>
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QPushButton" name="pushButton_16">
+       <widget class="QPushButton" name="num6Btn">
         <property name="text">
          <string>6</string>
         </property>
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QPushButton" name="pushButton_18">
+       <widget class="QPushButton" name="num7Btn">
         <property name="text">
          <string>7</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QPushButton" name="pushButton_17">
+       <widget class="QPushButton" name="num8Btn">
         <property name="text">
          <string>8</string>
         </property>
        </widget>
       </item>
       <item row="2" column="2">
-       <widget class="QPushButton" name="pushButton_19">
+       <widget class="QPushButton" name="num9Btn">
         <property name="text">
          <string>9</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QPushButton" name="pushButton_21">
+       <widget class="QPushButton" name="num0Btn">
         <property name="text">
          <string>0</string>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QPushButton" name="pushButton_20">
+       <widget class="QPushButton" name="numDotBtn">
         <property name="text">
          <string>.</string>
         </property>
        </widget>
       </item>
       <item row="3" column="2">
-       <widget class="QPushButton" name="pushButton_22">
+       <widget class="QPushButton" name="delBtn">
         <property name="text">
          <string>删</string>
         </property>
