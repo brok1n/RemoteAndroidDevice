@@ -23,7 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     mSocket = new QTcpSocket(this);
-    mSocket->setReadBufferSize(6220800);
 
     connect(mSocket, &QTcpSocket::readyRead, this, &MainWindow::readyRead);
     connect(this, SIGNAL(on_frame(QPixmap*)), this, SLOT(onFrame(QPixmap*)));
@@ -44,7 +43,7 @@ void MainWindow::on_startBtn_clicked()
 void MainWindow::readyRead()
 {
     QByteArray bt  = mSocket->readAll();
-    qDebug("recv data:%d", bt.size());
+//    qDebug("recv data:%d", bt.size());
 
     for(int i = 0, len = bt.size(); i < len;)
     {
@@ -115,36 +114,26 @@ void MainWindow::readyRead()
                 bt.remove(0, i);
                 mFrameData->append(bt.constData(), mFrameSize);
                 int dataSize = mFrameData->size();
-                qDebug("dataSize:%d, frameSize:%d", dataSize, mFrameSize);
-                qDebug("-------------------------------");
-                qDebug("000000000000000");
-                qDebug() << (((unsigned)bt.at(0)) & 0xFF);
-                qDebug() << (bt.at(0) & 0xFF);
-                qDebug("11111111111111");
-                qDebug() << (((unsigned)bt.at(1)) & 0xFF);
-                qDebug() << (bt.at(1) & 0xFF);
-                qDebug("2222222222222222");
-                qDebug() << (((unsigned)bt.at(2)) & 0xFF);
-                qDebug() << (bt.at(2) & 0xFF);
-                qDebug("33333333333333333");
+//                qDebug("dataSize:%d, frameSize:%d", dataSize, mFrameSize);
+//                qDebug("-------------------------------");
+//                qDebug("000000000000000");
+//                qDebug() << (((unsigned)bt.at(0)) & 0xFF);
+//                qDebug() << (bt.at(0) & 0xFF);
+//                qDebug("11111111111111");
+//                qDebug() << (((unsigned)bt.at(1)) & 0xFF);
+//                qDebug() << (bt.at(1) & 0xFF);
+//                qDebug("2222222222222222");
+//                qDebug() << (((unsigned)bt.at(2)) & 0xFF);
+//                qDebug() << (bt.at(2) & 0xFF);
+//                qDebug("33333333333333333");
 
-                qDebug() << (((unsigned)bt.at(3)) & 0xFF);
-                qDebug() << (bt.at(3) & 0xFF);
+//                qDebug() << (((unsigned)bt.at(3)) & 0xFF);
+//                qDebug() << (bt.at(3) & 0xFF);
 
                 if((unsigned char)mFrameData->at(0) != 0xFF || (unsigned char)mFrameData->at(1) != 0xD8)
                 {
                     qDebug("frame body does not start with jpg header");
                 }
-
-//                mFrameData->remove(0, 1);
-
-                QFile ff(QString("img_1_%1.jpg").arg(mPicIndex));
-               ff.open(QIODevice::WriteOnly);
-               QDataStream out(&ff);
-               out.writeBytes(mFrameData->constData(), mFrameData->size());
-               ff.flush();
-               ff.close();
-               mPicIndex ++;
 
                QPixmap *pixMap = new QPixmap();
                pixMap->loadFromData((uchar*)mFrameData->data(), mFrameData->size());
