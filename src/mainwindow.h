@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTcpSocket>
 #include <QProcess>
+#include <QThread>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,7 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void runCmd(QString);
+    void runCmd(QString, bool capProcess=false);
 
 signals:
     void on_frame(QPixmap);
@@ -27,6 +28,9 @@ private slots:
     void onFrame(QPixmap);
     void onProcessReadyRead();
     void onProcessErrorReadyRead();
+
+    void onCapProcessReadyRead();
+    void onCapProcessErrorReadyRead();
 
     void on_rightBtn_clicked();
 
@@ -91,6 +95,7 @@ private:
     QTcpSocket *mSocket;
     quint32 mPicIndex;
     QProcess *mProcess;
+    QProcess *mCapProcess;
 
 };
 #endif // MAINWINDOW_H

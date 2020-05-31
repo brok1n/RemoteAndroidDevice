@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     , mFrameData(new QByteArray)
     , mPicIndex(0)
     , mProcess(new QProcess(this))
+    , mCapProcess(new QProcess(this))
 {
     ui->setupUi(this);
 
@@ -29,11 +30,18 @@ MainWindow::MainWindow(QWidget *parent)
     connect(mProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(onProcessReadyRead()));
     connect(mProcess, SIGNAL(readyReadStandardError()), this, SLOT(onProcessErrorReadyRead()));
 
+    connect(mCapProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(onCapProcessReadyRead()));
+    connect(mCapProcess, SIGNAL(readyReadStandardError()), this, SLOT(onCapProcessErrorReadyRead()));
+
 #if defined (Q_OS_WIN)
     mProcess->start("cmd.exe");
     mProcess->write("chcp 65001\n", 11);
+
+    mCapProcess->start("cmd.exe");
+    mCapProcess->write("chcp 65001\n", 11);
 #else
     mProcess->start("bash");
+    mCapProcess->start("bash");
 #endif
 
     mSocket = new QTcpSocket(this);
@@ -47,20 +55,34 @@ MainWindow::~MainWindow()
         mSocket->close();
     }
     mProcess->close();
-    mProcess->waitForFinished(5);
+    mCapProcess->close();
+
+    mProcess->waitForFinished(3);
+    mCapProcess->waitForFinished(3);
 
     delete ui;
 }
 
-void MainWindow::runCmd(QString cmd)
+void MainWindow::runCmd(QString cmd, bool capProcess)
 {
-    mProcess->write(cmd.toUtf8());
+    if(!cmd.endsWith("\n")) {
+        cmd.append("\n");
+    }
+    if(!capProcess) {
+        mProcess->write(cmd.toUtf8());
+    } else {
+        mCapProcess->write(cmd.toUtf8());
+    }
 }
 
 
 void MainWindow::on_startBtn_clicked()
 {
     //adb shell dumpsys window | findstr init=
+//    runCmd("adb forward tcp:1313 localabstract:minicap");
+//    QThread::sleep(1);
+//    runCmd("adb shell LD_LIBRARY_PATH=/data/local/tmp /data/local/tmp/minicap -P 1280x720@960x540/0");
+//    QThread::sleep(3);
     mSocket->connectToHost("127.0.0.1", 1313);
 }
 
@@ -195,14 +217,22 @@ void MainWindow::onFrame(QPixmap img)
 
 void MainWindow::onProcessReadyRead()
 {
-    qDebug("process ready read");
    qDebug() << mProcess->readAllStandardOutput();
 }
 
 void MainWindow::onProcessErrorReadyRead()
 {
-    qDebug("process error ready read");
-   qDebug() << mProcess->readAllStandardError();
+    qDebug() << mProcess->readAllStandardError();
+}
+
+void MainWindow::onCapProcessReadyRead()
+{
+   qDebug() << mProcess->readAllStandardOutput();
+}
+
+void MainWindow::onCapProcessErrorReadyRead()
+{
+    qDebug() << mProcess->readAllStandardError();
 }
 
 void MainWindow::on_rightBtn_clicked()
